@@ -17,16 +17,16 @@ public class MailService {
     @ResponseBody
     @CrossOrigin
     @GetMapping("/enviarCorreo")
-    public String enviarCorreo(@RequestParam("to") String toEmail) throws MessagingException {
+    public String enviarCorreo(@RequestBody MailDTO mailDTO) throws MessagingException {
 
-        String body = "Hola gente desde el webservice";
-        String subject = "Prueba dese Webservice";
+        String body = mailDTO.getBody();
+        String subject = mailDTO.getSubject();
 
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message);
 
         helper.setFrom("equipos.pucp.iot@gmail.com");
-        helper.setTo(toEmail);
+        helper.setTo(mailDTO.getTo());
         helper.setSubject(subject);
         helper.setText(body);
 
